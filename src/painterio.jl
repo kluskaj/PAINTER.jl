@@ -156,6 +156,7 @@ function painterfitsexport(savepath::ASCIIString, PDATA::PAINTER_Data, OIDATA::P
       print(" ...Writing wavelength vector in main header")
       coldefs = [("WAVELENGTH", "1D", "m")];
       fits_create_binary_tbl(fits, size(w)[1], coldefs, "WAVELENGTHS")
+close(f)
       fits_write_col(fits::FITSFile, Float64, 1::Integer, 1::Integer, 1::Integer, w)
     end
 
@@ -170,9 +171,23 @@ function painterfitsexport(savepath::ASCIIString, PDATA::PAINTER_Data, OIDATA::P
     # vector of scalar values for successive columns of "INFO". Should match the description in coldefs
     info_values = [OIDATA.lambda_spat, OIDATA.lambda_spec, OIDATA.epsilon, PDATA.crit1, PDATA.crit2]
 
-    for i in 1:size(info_values)[1]
-        fits_write_col(fits::FITSFile, Float64, i::Integer, 1::Integer, 1::Integer, [info_values[i]])
+    #JKL PART
+    for i in 1:size(PDATA.crit1)[1]
+    	fits_write_col(fits::FITSFile, 1::Integer, i::Integer, 1::Integer, [info_values[1]])	
+    	fits_write_col(fits::FITSFile, 2::Integer, i::Integer, 1::Integer, [info_values[2]])
+    	fits_write_col(fits::FITSFile, 3::Integer, i::Integer, 1::Integer, [info_values[3]])	
+    	#fits_write_col(fits::FITSFile, 4::Integer, 1::Integer, 1::Integer, [PDATA.crit1])
+    	#fits_write_col(fits::FITSFile, 5::Integer, 1::Integer, 1::Integer, [PDATA.crit2])    
     end
+    fits_write_col(fits::FITSFile, 4::Integer, 1::Integer, 1::Integer, [PDATA.crit1])
+    fits_write_col(fits::FITSFile, 5::Integer, 1::Integer, 1::Integer, [PDATA.crit2])
+    #JKL END
+
+
+    #  for i in 1:size(info_values)[1]
+    #	print(i)
+    #    fits_write_col(fits::FITSFile, i::Integer, 1::Integer, 1::Integer, [info_values[i]])
+    #  end
 
     close(f)
 end
