@@ -30,4 +30,4 @@ OIDATA, PDATA, OPTOPT = painter(nbitermax = Mynbitermax, nx = Mynx, lambda_spat 
 @test_approx_eq_eps PDATA.crit1[1] 1.92813 1E-4
 
 
-painterfitsexport(Myoutput, PDATA, OIDATA)
+painterfitsexport("output.fits", PDATA, OIDATA)
