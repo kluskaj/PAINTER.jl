@@ -183,5 +183,11 @@ close(f)
     fits_write_col(fits::FITSFile, 5::Integer, 1::Integer, 1::Integer, [PDATA.crit2])
     #JKL END
 
+
+    #  for i in 1:size(info_values)[1]
+    #	print(i)
+    #    fits_write_col(fits::FITSFile, i::Integer, 1::Integer, 1::Integer, [info_values[i]])
+    #  end
+
     close(f)
 end
